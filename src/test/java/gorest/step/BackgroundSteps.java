@@ -29,9 +29,8 @@ public class BackgroundSteps {
         env.commentEndpoint = value;
     }
 
-    @And("bearerToken is set to {string}")
+    @Given("bearerToken is set to {string}")
     public void bearertokenIsSetTo(String value) {
-        env.bearerToken = value;
         SerenityRest.given()
                 .headers("Authorization", "Bearer "+value);
     }
