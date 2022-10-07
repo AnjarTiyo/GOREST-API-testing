@@ -22,7 +22,7 @@ public class GetRetrievesAllCommentsStepsDef {
 
     @When("send request GET comments")
     public void sendRequestGETComments() {
-        SerenityRest.when().get(URL);
+        SerenityRest.when().get(URL+"?access-token=10d553d5ddff8744213fde67295563f6ac0a2d296b96f29ad004aa92bdd5ce2b"+"?name=!@#$");
     }
 
     @Then("API should return {int} OK")

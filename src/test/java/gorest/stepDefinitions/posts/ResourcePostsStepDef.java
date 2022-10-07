@@ -1,4 +1,4 @@
-package gorest.stepDefinitions;
+package gorest.stepDefinitions.posts;
 
 import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
@@ -12,11 +12,14 @@ import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.annotations.Managed;
+import org.junit.Assert;
 
 import java.io.File;
 import java.util.HashMap;
 
-public class createPosts {
+import static org.hamcrest.CoreMatchers.containsString;
+
+public class ResourcePostsStepDef {
     @Managed
     GorestAPI gorest;
     Lorem lorem = LoremIpsum.getInstance();
@@ -201,5 +204,58 @@ public class createPosts {
     @Given("set path to {string} for delete invalid postID")
     public void setPathToForDeleteInvalidPostID(String url) {
         URL = url;
+    }
+
+    @And("assert postsId not {int}")
+    public void assertPostsIdNot(int value) {
+        Assert.assertNotEquals(globalEnv.postsID, value);
+    }
+
+    @Given("set path to {string}")
+    public void setPathTo(String url) {
+        URL = url;
+    }
+
+    @When("send request GET posts")
+    public void sendRequestGETPosts() {
+        SerenityRest.given().headers("Authorization", "Bearer 7ac1b26f8a04f41c988a284ffa38a91b0007d46c9f3374755d15bfeb5fd70e81")
+                .when().get(URL);
+    }
+
+    @And("set Header keys {string} values to {int}")
+    public void setHeaderKeysValuesTo(String key, int value) {
+        SerenityRest.given().headers(key, value);
+    }
+
+    @And("assert response body limit equals {int}")
+    public void assertResponseBodyEquals( int val) {
+        int t = SerenityRest.then().extract().body().path("meta.pagination.limit");
+        Assert.assertEquals(t, val);
+    }
+
+    @And("assert response body {string} contains {string}")
+    public void assertResponseBodyContains(String key, String val) {
+        SerenityRest.then().body(containsString(val));
+    }
+
+    @Given("set path posts to {string} on page {string}")
+    public void setPathPostsToOn(String url, String page) {
+        SerenityRest.given().pathParams("page", page);
+        URL = url;
+    }
+
+    @And("assert response body {string} equals {string}")
+    public void assertResponseBodyEquals(String param, String val) {
+//        int t = Integer.parseInt(SerenityRest.then().extract().body().path("meta.pagination."+param));
+        int s = Integer.parseInt(val);
+//        Assert.assertEquals(t, s);
+        SerenityRest.then().extract().body().path("meta.pagination.page").equals(s);
+    }
+
+    @When("send request GET posts page {string}")
+    public void sendRequestGETPostsPage(String page) {
+//        int t = Integer.parseInt(page);
+        SerenityRest.given().pathParams("page", page)
+                .when().get(URL);
     }
 }
