@@ -4,22 +4,18 @@ import gorest.step.GorestAPI;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import io.restassured.RestAssured;
 import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.annotations.Managed;
-import org.hamcrest.Matcher;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class GetAllPosts {
     @Managed
-    GorestAPI gorest;
     public String URL;
 
     @Given("set path to {string}")
     public void setPathTo(String url) {
-        SerenityRest.given().baseUri(url);
         URL = url;
     }
 
@@ -35,7 +31,7 @@ public class GetAllPosts {
 
     @And("assert response body {string} equals {int}")
     public void assertResponseBodyEquals(String var, int val) {
-        SerenityRest.then().body("meta.pagination."+var, equalTo(val));
+        SerenityRest.then().body("meta.pagination." + var, equalTo(val));
     }
 
     @And("assert response body {string} contains {string}")

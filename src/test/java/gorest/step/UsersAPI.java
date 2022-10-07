@@ -1,4 +1,4 @@
-package gorest.step.Users;
+package gorest.step;
 
 import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
