@@ -1,10 +1,11 @@
 Feature: Create a user post
-  Background:
+  Create post by user, this feature is very dependent to userID, so every scenario run with create new users background
+
+  Background: Create new users to generate valid usersID due to dynamic resources
     Given set path post new user to "https://gorest.co.in/public/v1/users"
     And set request body post to json data
     When send request post create new user
     Then API should return 201
-#      And post create new user json schema
     And API send usersID to dynamic variable
     And assert usersID not 0
 
