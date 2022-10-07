@@ -11,4 +11,4 @@ Feature: Put update comments
   Given set path to {{BASE_URL}}{{commentEndpoint}}
   And set request body to JSON data
   When click send button
-  And API should return 404 Not Found
+  And API should return 200 OK
