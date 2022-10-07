@@ -14,7 +14,7 @@ public class GetRetrievesAllCommentsStepsDef {
     public String URL;
 
     //@comments-008
-    @Given("set path to {string}")
+    @Given("set path to get retrieves all comment {string}")
         public void setPathTo(String url){
         SerenityRest.given().baseUri(url);
         URL=url;

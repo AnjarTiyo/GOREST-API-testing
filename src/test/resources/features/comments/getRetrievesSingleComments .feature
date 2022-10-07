@@ -9,14 +9,14 @@ Feature: Retrieves single comments
 
   @comments-016
   Scenario: GET all single comments within valid id
-  Given set path to "https://gorest.co.in/public/v1/comments?id=50"
+  Given set path to get retrieves all comment "https://gorest.co.in/public/v1/comments?id=50"
   When send request GET comments
   Then API should return 200 OK
 #  And assert response GET all single comments within valid id to json schema
 
   @comments-017
   Scenario: GET all single comments within invalid id
-  Given set path to "https://gorest.co.in/public/v1/comments?id=-5"
+  Given set path to get retrieves all comment "https://gorest.co.in/public/v1/comments?id=-5"
   When send request GET comments
   Then API should return 400 Not Found
 #  And assert response body to json schema
