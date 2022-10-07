@@ -12,7 +12,7 @@ public class globalEnv {
     public String postsEndpoint;
     public String commentEndpoint;
     public String bearerToken = "3c2333def57e12a588eb567a9877a0bf629a6bc7e977432385b8d391445a689e";
-    public String usersID;
-    public static String postsID;
+    public static int usersID;
+    public static int postsID;
 
 }

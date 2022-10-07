@@ -10,9 +10,11 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
+import io.restassured.response.Response;
+import net.serenitybdd.core.Serenity;
 import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.annotations.Managed;
-import org.openqa.selenium.remote.Response;
+import okhttp3.ResponseBody;
 
 import java.io.File;
 import java.util.HashMap;
@@ -29,28 +31,28 @@ public class createPosts {
 
     @Given("set path to {string} with valid usersID")
     public void setPathToWithValidUsersID(String url) {
-//        SerenityRest.given().pathParams("id", 13);
-//        SerenityRest.given()
-//                .headers("Authorization", "Bearer 10d553d5ddff8744213fde67295563f6ac0a2d296b96f29ad004aa92bdd5ce2b");
-        URL = url;
+//        String str = Integer.toString(globalEnv.usersID);
+        String link = "https://gorest.co.in/public/v1/users/"+globalEnv.usersID+"/posts/";
+//        SerenityRest.given().pathParams("usersID", globalEnv.usersID);
+        URL = link;
     }
 
     @And("set request body to valid posts JSON data")
     public void setRequestBodyToJSONData() {
         HashMap<String, Object> json = new HashMap<String, Object>();
-        String s1 = lorem.getWords(5,10);
-        String s2 = lorem.getParagraphs(1,1);
-        json.put("title", "new title");
-        json.put("body", "new body");
+        String s1 = lorem.getWords(2,4);
+        String s2 = lorem.getWords(10, 20);
+        json.put("title", s1);
+        json.put("body", s2);
 //        File json = new File(System.getProperty("user.dir")+"/src/test/resources/json/body/postPosts.json");
         SerenityRest.given()
-                .headers("Content-Type", "application/json")
+                .contentType(ContentType.JSON)
                 .body(json);
     }
 
     @When("send request POST create posts")
     public void sendRequestPOSTCreatePosts() {
-       SerenityRest.when().post(URL);
+        SerenityRest.when().post(URL+"?access-token=3c2333def57e12a588eb567a9877a0bf629a6bc7e977432385b8d391445a689e");
     }
 
     @Then("API should return {int}")
@@ -65,10 +67,12 @@ public class createPosts {
                 .body(JsonSchemaValidator.matchesJsonSchema(json));
     }
 
-    @And("API send id to dynamic variable")
-    public void apiSendIdToDynamicVariable() {
-        String response = SerenityRest.then().extract().path("id");
-        globalEnv.postsID = response;
+    @And("API send postsID to dynamic variable")
+    public int apiSendIdToDynamicVariable() {
+//        globalEnv.postsID = SerenityRest.then().extract().path("data.id");
+//        Response response = Serenity.sessionVariableCalled("response");
+//        Serenity.setSessionVariable("postsID").to(SerenityRest.then().extract().path("data.id"));
+        return globalEnv.postsID = SerenityRest.then().extract().path("data.id");
     }
 
     @And("set request body to invalid posts JSON data")
@@ -77,5 +81,33 @@ public class createPosts {
         json.put("title", "");
         json.put("body", "");
         SerenityRest.given().contentType(ContentType.JSON).body(json);
+    }
+
+    @When("send request POST create posts invalid users")
+    public void sendRequestPOSTCreatePostsInvalidUsers() {
+        SerenityRest.when().post(URL+"?access-token=3c2333def57e12a588eb567a9877a0bf629a6bc7e977432385b8d391445a689e");
+    }
+
+    @Given("set path to {string} with invalid usersID")
+    public void setPathToWithInvalidUsersID(String url) {
+        URL = url;
+    }
+
+    @Given("set path to {string} for single post")
+    public void setPathToForSinglePost(String url) {
+//        String str = Serenity.sessionVariableCalled("postsID");
+        SerenityRest.given().pathParams("id", "aa");
+        URL = url;
+    }
+
+    @When("send request GET single posts from id {string}")
+    public void sendRequestGETSinglePostsFromId(String id) {
+        SerenityRest.when().get(URL+"?access-token=3c2333def57e12a588eb567a9877a0bf629a6bc7e977432385b8d391445a689e");
+    }
+
+    @Given("set path to {string} for users post")
+    public void setPathToForUsersPost(String url) {
+        SerenityRest.given().pathParams("id", globalEnv.usersID);
+        URL = url;
     }
 }

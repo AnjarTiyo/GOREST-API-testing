@@ -7,28 +7,29 @@ Feature: Create new user
 
     @positive @users-001
     Scenario: post create new user with valid data
-      Given set path to "https://gorest.co.in/public/v1/users"
+      Given set path post new user to "https://gorest.co.in/public/v1/users"
       And set request body post to json data
       When send request post create new user
-      Then should return 201 created
-      And post create new user json schema
+      Then API should return 201
+#      And post create new user json schema
       And API send usersID to dynamic variable
+      And assert usersID not 0
 
     @negative @users-002
     Scenario: post create new user with invalid json
-      Given set path to {{BASE_URL}}{{usersEndpoint}}
+      Given set path post new user to "https://gorest.co.in/public/v1/users"
       And set request body post to invalid json data
       When send request post create new user
-      Then should return 422 unprocessable entity
+      Then API should return 422
       And response body should contains field "email" and message "can't be blank"
-      And post create new user json schema
+#      And post create new user json schema
 
-    @negative @users-003
-    Scenario: post create new user with existing json data
-      Given set path to {{BASE_URL}}{{usersEndpoint}}
-      And set request body post to existing json data
-      When send request post create new user
-      Then should return 422 unprocessable entity
-      And response body should contains field "email" and message "has already been taken"
-      And post create new user json schema
+#    @negative @users-003
+##    Scenario: post create new user with existing json data
+###      Given set path post new user to "https://gorest.co.in/public/v1/users"
+###      And set request body post to json data
+###      When send request post create new user
+###      Then API should return 422
+###      And response body should contains field "email" and message "has already been taken"
+###      And post create new user json schema
 
