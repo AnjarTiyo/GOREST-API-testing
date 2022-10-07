@@ -1,17 +1,40 @@
 Feature: Create a user post
+  Create post by user, this feature is very dependent to userID, so every scenario run with create new users background
 
-  Background: Environment is set
-    Given BASE_URL is set to "https://gorest.co.in/public/v1"
-    And usersEndpoint is set to "/users"
-    And postsEndpoint is set to "/posts"
-    And commentsEndpoint is set to "/comments"
-    And bearerToken is set to "3c2333def57e12a588eb567a9877a0bf629a6bc7e977432385b8d391445a689e"
+  Background: Create new users to generate valid usersID due to dynamic resources
+    Given set path post new user to "https://gorest.co.in/public/v1/users"
+    And set request body post to json data
+    When send request post create new user
+    Then API should return 201
+    And API send usersID to dynamic variable
+    And assert usersID not 0
 
   @positive @posts-001
   Scenario: POST create a user post with valid user ID and valid body
-    Given set path to {{BASE_URL}}{{usersEndpoint}}{{usersID}}{{postsEndpoint}}
-    And set request body to JSON data
-    When click Send button
-    Then API should return 200 OK
-    And response body should contains post ID not null
-    And assert response body to json schema
+    Given set path to "https://gorest.co.in/public/v1/users/{id}/posts" with valid usersID
+    And set request body to valid posts JSON data
+    When send request POST create posts
+    Then API should return 201
+#    And assert response body to json schema "postCreatePosts.json"
+    And API send postsID to dynamic variable
+    And assert postsId not 0
+
+  @negative @posts-002
+  Scenario: POST create a user post with valid user ID and invalid body
+    Given set path to "https://gorest.co.in/public/v1/users/{id}/posts" with valid usersID
+    And set request body to invalid posts JSON data
+    When send request POST create posts
+    Then API should return 422
+
+  @negative @posts-003
+  Scenario: POST create a user post with valid user ID without body
+    Given set path to "https://gorest.co.in/public/v1/users/{id}/posts" with valid usersID
+    When send request POST create posts
+    Then API should return 422
+
+  @negative @posts-004
+  Scenario: POST create a user post with invalid user ID
+    Given set path to "https://gorest.co.in/public/v1/users/aa/posts" with invalid usersID
+    When send request POST create posts invalid users
+    Then API should return 422
+
