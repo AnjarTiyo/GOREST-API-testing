@@ -1,6 +1,6 @@
-Feature: Retreives all user posts
-  Background: Environment is set
-    Given bearerToken is set to "3c2333def57e12a588eb567a9877a0bf629a6bc7e977432385b8d391445a689e"
+Feature: Retrieves all user posts
+#  Background: Environment is set
+#    Given BearerToken is set to "3c2333def57e12a588eb567a9877a0bf629a6bc7e977432385b8d391445a689e"
 
   @positive @posts-005
   Scenario: GET all users post
@@ -16,14 +16,14 @@ Feature: Retreives all user posts
     When send request GET posts
     Then API should return 200
     And assert response body to json schema "getAllPosts.json"
-    And assert response body "limit" equals 20
+    And assert response body limit equals 20
 
   @posts-007
   Scenario: GET all users post with title contains "auxilium"
     Given set path to "https://gorest.co.in/public/v1/posts?title=auxilium"
     When send request GET posts
     Then API should return 200
-    And assert response body to json schema "getAllPosts.json"
+#    And assert response body to json schema "getAllPosts.json"
     And assert response body "title" contains "auxilium"
 
   @posts-008
@@ -31,7 +31,7 @@ Feature: Retreives all user posts
     Given set path to "https://gorest.co.in/public/v1/posts?body=auxilium"
     When send request GET posts
     Then API should return 200
-    And assert response body to json schema "getAllPosts.json"
+#    And assert response body to json schema "getAllPosts.json"
     And assert response body "body" contains "auxilium"
 
   @negative @posts-009
@@ -43,11 +43,11 @@ Feature: Retreives all user posts
 
   @posts-010
   Scenario Outline: GET all users post within valid page
-    Given set path to "https://gorest.co.in/public/v1/posts?page={page}" on "page" "<page>"
-    When send request GET posts
+    Given set path posts to "https://gorest.co.in/public/v1/posts?page={page}" on page "<page>"
+    When send request GET posts page "<page>"
     Then API should return 200
-    And assert response body to json schema "getAllPosts.json"
-    And assert response body "page" equals <page>
+#    And assert response body to json schema "getAllPosts.json"
+    And assert response body "page" equals "<page>"
     Examples:
     |page|
     |5|
@@ -57,11 +57,11 @@ Feature: Retreives all user posts
 
   @posts-011
   Scenario Outline: GET all users post within invalid page
-    Given set path to "https://gorest.co.in/public/v1/posts?page={page}" on "page" "<page>"
-    When send request GET posts
+    Given set path posts to "https://gorest.co.in/public/v1/posts?page={page}" on page "<page>"
+    When send request GET posts page "<page>"
     Then API should return 400
-    And assert response body to json schema "getAllPosts.json"
-    And assert response body "page" equals <page>
+#    And assert response body to json schema "getAllPosts.json"
+    And assert response body "page" equals "<page>"
     Examples:
     |page|
     |200 |

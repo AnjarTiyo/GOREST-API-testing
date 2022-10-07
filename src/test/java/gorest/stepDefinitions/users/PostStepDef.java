@@ -28,7 +28,7 @@ public class PostStepDef {
     Lorem lorem = LoremIpsum.getInstance();
     public String URL;
 
-    //POST CREATE NEW USER VALID JSON [USERS-001]
+//    POST CREATE NEW USER VALID JSON [USERS-001]
     @Given("set path post new user to {string}")
     public void setPathTo(String url) {
         String link = "https://gorest.co.in/public/v1/users";
@@ -38,7 +38,7 @@ public class PostStepDef {
     public void setRequestBodyPostToJsonData() {
         HashMap<String, Object> json = new HashMap<String, Object>();
         String s1 = lorem.getNameMale();
-        String s2 = lorem.getFirstName()+"@email.com";
+        String s2 = lorem.getEmail();
         String s3 = "male";
         String s4 = "active";
         json.put("name", s1);

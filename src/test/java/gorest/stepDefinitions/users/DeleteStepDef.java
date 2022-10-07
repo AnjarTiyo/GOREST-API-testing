@@ -1,5 +1,6 @@
 package gorest.stepDefinitions.users;
 
+import gorest.env.globalEnv;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -14,7 +15,8 @@ public class DeleteStepDef {
 
     @When("send request delete user from id {string}")
     public void sendRequestDeleteUserFromId(String id) {
-        SerenityRest.when().delete(URL + "?access-token=7ac1b26f8a04f41c988a284ffa38a91b0007d46c9f3374755d15bfeb5fd70e81");
+        SerenityRest.given().pathParams("id", globalEnv.usersID)
+                .when().delete(URL + "?access-token=7ac1b26f8a04f41c988a284ffa38a91b0007d46c9f3374755d15bfeb5fd70e81");
     }
     @When("send request delete user from invalid {string}")
     public void sendRequestDeleteUserFromInvalid(String id) {

@@ -32,6 +32,13 @@ public class BackgroundSteps {
     @Given("bearerToken is set to {string}")
     public void bearertokenIsSetTo(String value) {
         SerenityRest.given()
-                .headers("Authorization", "Bearer "+value);
+                .headers("Authorization", "Bearer 32441f3f8fe63c08acb2d18fd19d853ba2c24cc037cb7c72ad65ce40a382010c");
+    }
+
+    @Given("BearerToken is set to {string}")
+    public void tokenIsSetTo(String arg0) {
+        SerenityRest.given()
+                .headers("Authorization", "Bearer 7ac1b26f8a04f41c988a284ffa38a91b0007d46c9f3374755d15bfeb5fd70e81");
+
     }
 }
