@@ -21,5 +21,6 @@ public class PutComments {
 
     @And("set request body PUT one comment to JSON data")
     public void setRequestBodyPUTOneCommentToJSONData() {
+
     }
 }
