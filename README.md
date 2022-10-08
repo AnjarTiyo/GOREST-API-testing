@@ -30,23 +30,23 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/AnjarTiyo/RestAssured-Reqres-Automation">
+  <a href="https://github.com/AnjarTiyo/GOREST-API-testing">
     <img src="https://avatars0.githubusercontent.com/u/19369327?s=400&v=4" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Reqres.in API Automated Testing</h3>
+<h3 align="center">GoREST.co.in API manual & Automated Testing</h3>
 
   <p align="center">
-    Reqres.in API automated testing using Rest Assured
+    GoREST.co.in API manual and automated testing using Postman & Rest Assured
     <br />
-    <a href="https://github.com/AnjarTiyo/RestAssured-Reqres-Automation"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/AnjarTiyo/GOREST-API-testing/tree/master/src/documentations"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/AnjarTiyo/RestAssured-Reqres-Automation">View Demo</a>
+    <a href="https://github.com/AnjarTiyo/GOREST-API-testing">View Demo</a>
     ·
-    <a href="https://github.com/AnjarTiyo/RestAssured-Reqres-Automation">Report Bug</a>
+    <a href="https://github.com/AnjarTiyo/GOREST-API-testing">Report Bug</a>
     ·
-    <a href="https://github.com/AnjarTiyo/RestAssured-Reqres-Automation">Request Feature</a>
+    <a href="https://github.com/AnjarTiyo/GOREST-API-testing">Request Feature</a>
   </p>
 </div>
 
@@ -81,11 +81,16 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://qe06-team1.000webhostapp.com/)
 
-Here is my project using Rest Assured to Automate API testing on reqres.in. I also implement gherkin languange as main feature of this test. So it's quite easy to understand what to test and how the test work. 
+It is Group Project regarding Alterra Academy Quality Engineer Immersive Bootcamp Batch 06 on Manual and Automation Testing. We implement gherkin languange as main feature of this test. So it's quite easy to understand what to test and how the test work. 
 
-This project is based on ***[Reqres - A freely available REST API.](https://reqres.in)***
+This project is based on ***[GoRest - GraphQL and REST API for Testing and Prototyping.](https://gorest.co.in)*** which use fake data | real responses | 24/7 online
+
+We use public V1 API version because we can get more testing insight in tester POV.
+
+You can also view our latest test run online ***[HERE](https://qe06-team1.000webhostapp.com/)***
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -94,8 +99,8 @@ This project is based on ***[Reqres - A freely available REST API.](https://reqr
 ### Built With
 
 * [Java 1.8](https://www.oracle.com/java/technologies/downloads/)
-* [Intellij IDEA]()
-* [Maven]()
+* [Intellij IDEA](https://www.jetbrains.com/idea/download/)
+* [Maven](https://maven.apache.org/download.cgi)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -113,11 +118,11 @@ To get a local copy up and running follow these simple example steps.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/AnjarTiyo/RestAssured-Reqres-Automation.git
+   git clone https://github.com/AnjarTiyo/GOREST-API-testing.git
    ```
 3. Go to project directory
    ```sh
-   cd RestAssured-Reqres-Automation
+   cd GOREST-API-testing
    ```
 4. run Maven command
    ```sh
@@ -127,7 +132,7 @@ To get a local copy up and running follow these simple example steps.
 
 1. Create New Project
 2. Select from "versioning control"
-3. Paste https://github.com/AnjarTiyo/RestAssured-Reqres-Automation.git
+3. Paste https://github.com/AnjarTiyo/GOREST-API-testing.git
 4. Select JDK 1.8
 5. Select maven
 6. Click OK
@@ -140,20 +145,17 @@ To get a local copy up and running follow these simple example steps.
 ## Usage
 
 ```sh
-Feature: User regisration
+Feature: Create new users
+  Create new resource users with given json data. Because data.email should unique, we use "Lorem" random email generator.
 
-  Scenario Outline: Successful register new User(s)
-    Given I post register valid new user with email "<email>", password "<password>", note: "<note>"
-    When Send request post register new user
-    Then Status code should be "<status>" - "<detail>"
-    And Response body "<body_resp>" should return "<response>"
-    Examples:
-      | email              | password | note         | status | detail      | response                                      | body_resp |
-      | eve.holt@reqres.in | pistol   | ValidData    | 200    | OK          | token                                         | token     |
-      | eve.holt@reqres.in |          | NoPassword   | 400    | Bad Request | Missing password                              | error     |
-      | not.an.email       | pistol   | InvalidEmail | 400    | Bad Request | Note: Only defined users succeed registration | error     |
-      |                    | pistol   | NoEmail      | 400    | Bad Request | Missing email                                 | error     |
-      |                    |          | NoData       | 400    | Bad Request | Missing email                                 | error     |
+  Scenario: post create new user with valid data
+    Given set path post new user to "https://gorest.co.in/public/v1/users"
+    And set request body post to json data
+    When send request post create new user
+    Then API should return 201 created
+    And post create new user json schema
+    And API send usersID to dynamic variable
+    And assert usersID not 0
 ```
   
 _For more examples, please refer to the [Documentation](https://example.com)_
@@ -163,20 +165,30 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 
 <!-- FEATURE TESTED -->
-## Feature Tested
+## Resource Tested
 
-- [ ] Authorization
-    - [ ] POST Login user  
-- [ ] Registration
-    - [ ] POST Register New User 
-- [ ] Resources - USERS
-    - [ ] GET All Users within page
-    - [ ] GET Single Users with Id
-    - [ ] POST Create New Users
-    - [ ] PUT Update Users Attributes
-    - [ ] DEL Existing Users
+Method we implement is HEAD, GET, PUT, PATCH and DELETE. And authorization using ***header Bearer Token*** and ***HTTP Basic Auth***
 
-See the [open issues](https://github.com/AnjarTiyo/RestAssured-Reqres-Automation/issues) for a full list of proposed features (and known issues).
+- [ ] ./users
+    - [ ] POST Create new users 
+    - [ ] GET users data
+    - [ ] PUT update users
+    - [ ] DELETE users
+- [ ] ./posts
+    - [ ] POST create new posts
+    - [ ] GET posts
+    - [ ] PUT update posts
+    - [ ] PATCH update feature
+    - [ ] DELETE posts 
+- [ ] ./comments
+    - [ ] POST create new commets
+    - [ ] GET comments
+    - [ ] PUT update comments
+    - [ ] DELETE comments
+- [ ] Misc
+    - [ ] HEAD ping server 
+
+See the [open issues](https://github.com/AnjarTiyo/GOREST-API-testing/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -212,9 +224,13 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Anjar Tiyo Saputro - [@anjartiyo.s](https://www.instagram.com/anjartiyo.s/) - anjar.jog@gmail.com
+Anjar Tiyo Saputro - [LinkedIn](https://www.linkedin.com/in/anjartiyo) - anjar.jog@gmail.com
 
-Project Link: [https://github.com/AnjarTiyo/RestAssured-Reqres-Automation](https://github.com/AnjarTiyo/RestAssured-Reqres-Automation)
+Bunga Ayu Ferdiyanti - bungaayu9599@gmail.com
+
+M. Sholikudin Bhasri - sholikudinxtsm211@gmail.com
+
+Project Link: [https://github.com/AnjarTiyo/GOREST-API-testing](https://github.com/AnjarTiyo/GOREST-API-testing)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -225,7 +241,7 @@ Project Link: [https://github.com/AnjarTiyo/RestAssured-Reqres-Automation](https
 
 * [Alterra Academy](https://academy.alterra.id/)
 * [Rest Assured](https://github.com/rest-assured/rest-assured)
-* [My Mentor - Wisnu Munawar](https://github.com/wisnuwm)
+* [OUR Mentor - Wisnu Munawar](https://github.com/wisnuwm)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -233,16 +249,16 @@ Project Link: [https://github.com/AnjarTiyo/RestAssured-Reqres-Automation](https
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/AnjarTiyo/RestAssured-Reqres-Automation.svg?style=for-the-badge
-[contributors-url]: https://github.com/AnjarTiyo/RestAssured-Reqres-Automation/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/AnjarTiyo/RestAssured-Reqres-Automation.svg?style=for-the-badge
-[forks-url]: https://github.com/AnjarTiyo/RestAssured-Reqres-Automation/network/members
-[stars-shield]: https://img.shields.io/github/stars/AnjarTiyo/RestAssured-Reqres-Automation.svg?style=for-the-badge
-[stars-url]: https://github.com/AnjarTiyo/RestAssured-Reqres-Automation/stargazers
-[issues-shield]: https://img.shields.io/github/issues/AnjarTiyo/RestAssured-Reqres-Automation.svg?style=for-the-badge
-[issues-url]: https://github.com/AnjarTiyo/RestAssured-Reqres-Automation/issues
-[license-shield]: https://img.shields.io/github/license/AnjarTiyo/RestAssured-Reqres-Automation.svg?style=for-the-badge
-[license-url]: https://github.com/AnjarTiyo/RestAssured-Reqres-Automation/blob/main/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/AnjarTiyo/GOREST-API-testing.svg?style=for-the-badge
+[contributors-url]: https://github.com/AnjarTiyo/GOREST-API-testing/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/AnjarTiyo/GOREST-API-testing.svg?style=for-the-badge
+[forks-url]: https://github.com/AnjarTiyo/GOREST-API-testing/network/members
+[stars-shield]: https://img.shields.io/github/stars/AnjarTiyo/GOREST-API-testing.svg?style=for-the-badge
+[stars-url]: https://github.com/AnjarTiyo/GOREST-API-testing/stargazers
+[issues-shield]: https://img.shields.io/github/issues/AnjarTiyo/GOREST-API-testing.svg?style=for-the-badge
+[issues-url]: https://github.com/AnjarTiyo/GOREST-API-testing/issues
+[license-shield]: https://img.shields.io/github/license/AnjarTiyo/GOREST-API-testing.svg?style=for-the-badge
+[license-url]: https://github.com/AnjarTiyo/GOREST-API-testing/blob/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/anjartiyo
-[product-screenshot]: src/documentations/Screenshot_2022-09-28_14_01_25.png
+[product-screenshot]: src/documentations/Screenshot_2022-10-07_18_47_33.png
