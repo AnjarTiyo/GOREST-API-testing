@@ -226,7 +226,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Anjar Tiyo Saputro - [LinkedIn](https://www.linkedin.com/in/anjartiyo) - anjar.jog@gmail.com
 
-Bunga Ayu Ferdiyanti - bungaayu9599@gmail.com
+Bunga Ayu Ferdiyanti - [LinkedIn](https://www.linkedin.com/in/bungaayuferdiyanti) - bungaayu9599@gmail.com
 
 M. Sholikudin Bhasri - sholikudinxtsm211@gmail.com
 
